@@ -1,0 +1,18 @@
+%p#notice= notice
+
+%p
+  %b Title:
+  = @route.title
+%p
+  %b Description:
+  = @route.description
+%p
+  %b Distance:
+  = @route.distance
+%p
+  %b Total ascent:
+  = @route.total_ascent
+
+= link_to 'Edit', edit_route_path(@route)
+\|
+= link_to 'Back', routes_path

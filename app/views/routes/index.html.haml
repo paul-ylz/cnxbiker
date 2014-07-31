@@ -1,0 +1,25 @@
+%h1 Listing routes
+
+%table
+  %tr
+    %th Title
+    %th Description
+    %th Distance
+    %th Total ascent
+    %th
+    %th
+    %th
+
+  - @routes.each do |route|
+    %tr
+      %td= route.title
+      %td= route.description
+      %td= route.distance
+      %td= route.total_ascent
+      %td= link_to 'Show', route
+      %td= link_to 'Edit', edit_route_path(route)
+      %td= link_to 'Destroy', route, :method => :delete, :data => { :confirm => 'Are you sure?' }
+
+%br
+
+= link_to 'New Route', new_route_path
