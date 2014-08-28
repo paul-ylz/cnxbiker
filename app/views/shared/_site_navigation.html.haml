@@ -2,24 +2,28 @@
   %ul.title-area
     %li.name
       %h1
-        %a{:href => "#"} CNX Biker
+        = link_to 'CNX Biker', root_path
     / Remove the class "menu-icon" to get rid of menu icon. Take out "Menu" to just have icon alone
     %li.toggle-topbar.menu-icon
       %a{:href => "#"}
         %span Menu
   %section.top-bar-section
-    / Right Nav Section
-    %ul.right
-      %li.active
-        %a{:href => "#"} Right Button Active
-      %li.has-dropdown
-        %a{:href => "#"} Right Button Dropdown
-        %ul.dropdown
-          %li
-            %a{:href => "#"} First link in dropdown
-          %li.active
-            %a{:href => "#"} Active link in dropdown
     / Left Nav Section
     %ul.left
       %li
-        %a{:href => "#"} Left Nav Button
+        = link_to 'Routes', routes_path
+      %li
+        =link_to 'Sign up', new_user_registration_path, class: 'button' unless user_signed_in?
+    / Right Nav Section
+    %ul.right
+      - if user_signed_in?
+        %li.has-dropdown
+          = link_to current_user.email, '#'
+          %ul.dropdown
+            %li
+              %a{:href => "#"} User settings
+            %li
+              = link_to 'Sign out', destroy_user_session_path, method: :delete
+      - else
+        %li
+          = link_to 'Sign in', new_user_session_path
