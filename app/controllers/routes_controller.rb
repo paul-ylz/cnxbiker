@@ -14,7 +14,8 @@ class RoutesController < ApplicationController
 
   # GET /routes/new
   def new
-    @route = Route.new
+    @route       = Route.new
+    @route.track = Track.new
   end
 
   # GET /routes/1/edit
@@ -69,6 +70,6 @@ class RoutesController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def route_params
-      params.require(:route).permit(:title, :description, :distance, :total_ascent)
+      params.require(:route).permit(:title, :description, :distance, :total_ascent, track_attributes: [:gpx])
     end
 end

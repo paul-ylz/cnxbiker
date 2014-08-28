@@ -1,22 +1,8 @@
-= form_for @route do |f|
-  - if @route.errors.any?
-    #error_explanation
-      %h2= "#{pluralize(@route.errors.count, "error")} prohibited this route from being saved:"
-      %ul
-        - @route.errors.full_messages.each do |msg|
-          %li= msg
-
-  .field
-    = f.label :title
-    = f.text_field :title
-  .field
-    = f.label :description
-    = f.text_area :description
-  .field
-    = f.label :distance
-    = f.text_field :distance
-  .field
-    = f.label :total_ascent
-    = f.text_field :total_ascent
-  .actions
-    = f.submit 'Save'
+= simple_form_for @route do |r|
+  = r.simple_fields_for :track do |t|
+    = t.input :gpx
+  = r.input :title
+  = r.input :description
+  = r.input :distance
+  = r.input :total_ascent
+  = r.button :submit

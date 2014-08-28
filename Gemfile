@@ -27,6 +27,7 @@ gem 'devise'
 gem 'haml-rails'
 gem 'simple_form'
 gem 'foundation-rails'
+gem 'paperclip', git: 'git://github.com/thoughtbot/paperclip.git'
 
 group :development do
   gem 'better_errors'
