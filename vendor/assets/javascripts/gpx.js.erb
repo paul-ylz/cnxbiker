@@ -42,9 +42,9 @@ var _MINUTE_IN_MILLIS = 60 * _SECOND_IN_MILLIS;
 var _HOUR_IN_MILLIS = 60 * _MINUTE_IN_MILLIS;
 
 var _DEFAULT_MARKER_OPTS = {
-  startIconUrl: 'pin-icon-start.png',
-  endIconUrl: 'pin-icon-end.png',
-  shadowUrl: 'pin-shadow.png',
+  startIconUrl: '<%= asset_path 'pin-icon-start.png' %>',
+  endIconUrl: '<%= asset_path 'pin-icon-end.png' %>',
+  shadowUrl: '<%= asset_path 'pin-shadow.png' %>',
   iconSize: [33, 50],
   shadowSize: [50, 50],
   iconAnchor: [16, 45],
