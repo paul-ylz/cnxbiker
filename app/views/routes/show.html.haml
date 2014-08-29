@@ -13,7 +13,7 @@
   %b Total ascent:
   = @route.total_ascent
 
-%p
+= content_tag 'div', id: 'track', data: { url: @route.track.gpx.url } do
   %b GPX:
   = @route.track.gpx_file_name
   = @route.track.gpx_file_size
