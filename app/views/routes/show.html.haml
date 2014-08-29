@@ -15,13 +15,14 @@
 
 = content_tag 'div', id: 'track', data: { url: @route.track.gpx.url } do
   %b GPX:
-  = @route.track.gpx_file_name
-  = @route.track.gpx_file_size
-  bytes
+  = link_to @route.track.gpx.url, type: 'application/xml' do
+    = @route.track.gpx_file_name
+    = number_to_human_size @route.track.gpx_file_size
+    bytes
 
 = link_to 'Edit', edit_route_path(@route)
 \|
 = link_to 'Back', routes_path
 
-%link{:href => "http://cdn.leafletjs.com/leaflet-0.7.3/leaflet.css", :rel => "stylesheet"}/
-%script{:src => "http://cdn.leafletjs.com/leaflet-0.7.3/leaflet.js"}
+%link{href: 'http://cdn.leafletjs.com/leaflet-0.7.3/leaflet.css', rel: 'stylesheet'}
+%script{src: 'http://cdn.leafletjs.com/leaflet-0.7.3/leaflet.js'}
