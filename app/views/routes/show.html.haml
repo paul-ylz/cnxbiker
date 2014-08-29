@@ -1,4 +1,4 @@
-%p#notice= notice
+#map
 
 %p
   %b Title:
@@ -13,6 +13,15 @@
   %b Total ascent:
   = @route.total_ascent
 
+%p
+  %b GPX:
+  = @route.track.gpx_file_name
+  = @route.track.gpx_file_size
+  bytes
+
 = link_to 'Edit', edit_route_path(@route)
 \|
 = link_to 'Back', routes_path
+
+%link{:href => "http://cdn.leafletjs.com/leaflet-0.7.3/leaflet.css", :rel => "stylesheet"}/
+%script{:src => "http://cdn.leafletjs.com/leaflet-0.7.3/leaflet.js"}
