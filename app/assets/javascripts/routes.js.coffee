@@ -14,7 +14,8 @@ new L.GPX(gpx_url,
   async: true
 ).on("loaded", (e) ->
   gpx = e.target
-  # How do I access the variable gpx from outside?
-  console.log gpx.get_distance()
-  map.fitBounds e.target.getBounds()
+  $('#distance').prepend gpx.get_distance().toFixed(0)
+  $('#total-ascent').prepend gpx.get_elevation_gain().toFixed(0)
+  map.fitBounds gpx.getBounds()
 ).addTo map
+

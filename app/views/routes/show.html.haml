@@ -8,10 +8,10 @@
   = @route.description
 %p
   %b Distance:
-  = @route.distance
+  %span#distance m
 %p
   %b Total ascent:
-  = @route.total_ascent
+  %span#total-ascent m
 
 = content_tag 'div', id: 'track', data: { url: @route.track.gpx.url } do
   %b GPX:
