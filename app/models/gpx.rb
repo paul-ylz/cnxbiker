@@ -2,33 +2,37 @@ require 'nokogiri'
 
 class Gpx
 
+  attr_reader :points, :distance, :total_ascent, :total_descent
+
   def initialize(file)
-    @file = file
-    @points = []
-    @distance = 0
+    @file          = file
+    @points        = []
+    @distance      = 0
+    @total_ascent  = 0
+    @total_descent = 0
     parse_gpx
   end
 
-  def points
-    @points
-  end
-
-  def distance
+  def calc_distance
     i = 0
     loop do
       a = [ @points[i][:lon].to_f, @points[i][:lat].to_f ]
       b = [ @points[i+1][:lon].to_f, @points[i+1][:lat].to_f ]
-      # puts "a is #{a} and b is #{b}"
       @distance += distance_between_points(a, b)
       i += 1
       break if i >= @points.length - 2
     end
-    @distance
   end
 
-  def total_ascent
-    # Gives total ascent in m
-    # compare elevations sequentially. if the 2nd is larger, add the difference
+  def calc_elevations
+    i = 0
+    loop do
+      a = @points[i][:ele].to_f
+      b = @points[i+1][:ele].to_f
+      b > a ? @total_ascent += (b - a) : @total_descent += (a - b)
+      i += 1
+      break if i >= @points.length - 2
+    end
   end
 
   def parse_gpx
@@ -42,6 +46,8 @@ class Gpx
         ele: get_elevation(node)
       }
     end
+    calc_distance
+    calc_elevations
   end
 
   def get_elevation(node)
