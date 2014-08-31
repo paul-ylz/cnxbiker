@@ -14,11 +14,10 @@
   %span#total-ascent m
 
 = content_tag 'div', id: 'track', data: { url: @route.track.gpx.url } do
-  %b GPX:
-  = link_to @route.track.gpx.url, type: 'application/xml' do
+  %b Download:
+  = link_to track_download_path(@route.track), { target: '_self' } do
     = @route.track.gpx_file_name
     = number_to_human_size @route.track.gpx_file_size
-    bytes
 
 = link_to 'Edit', edit_route_path(@route)
 \|
