@@ -189,6 +189,7 @@ DEPENDENCIES
   immigrant
   jbuilder (~> 2.0)
   jquery-rails
+  nokogiri
   paperclip!
   pg
   rails (= 4.1.4)

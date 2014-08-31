@@ -29,6 +29,7 @@ gem 'simple_form'
 gem 'foundation-rails'
 gem 'paperclip', git: 'git://github.com/thoughtbot/paperclip.git'
 gem 'aws-sdk'
+gem 'nokogiri'
 
 group :development do
   gem 'better_errors'
