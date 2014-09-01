@@ -13,6 +13,14 @@
   %b Total ascent:
   %span#total-ascent m
 
+%p
+  From Gpx:
+  distance:
+  = @route.distance
+  %br
+  total_ascent:
+  = @route.total_ascent
+
 = content_tag 'div', id: 'track', data: { url: @route.track.gpx.url } do
   %b Download:
   = link_to track_download_path(@route.track), { target: '_self' } do

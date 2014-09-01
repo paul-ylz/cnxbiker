@@ -1,16 +1,15 @@
-require 'nokogiri'
-
 class Gpx
 
   attr_reader :points, :distance, :total_ascent, :total_descent
 
-  def initialize(file)
-    @file          = file
+  def initialize(path)
     @points        = []
     @distance      = 0
     @total_ascent  = 0
     @total_descent = 0
+    @file          = File.open path
     parse_gpx
+    @file.close
   end
 
   def calc_distance
