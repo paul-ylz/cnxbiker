@@ -5,8 +5,8 @@ class Track < ActiveRecord::Base
 
   def process_gpx
     gpx = Gpx.new self.gpx.path
-    self.update_attributes distance: gpx.distance,
-                           total_ascent: gpx.total_ascent,
-                           total_descent: gpx.total_descent
+    self.update_attributes distance: gpx.distance.round(1),
+                           total_ascent: gpx.total_ascent.round,
+                           total_descent: gpx.total_descent.round
   end
 end

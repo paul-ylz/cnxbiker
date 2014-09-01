@@ -1,3 +1,10 @@
 // Place all the styles related to the Routes controller here.
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
+#map {
+  margin-bottom: 15px;
+}
+
+.route-side {
+  border-right: 1px solid #999;
+}
