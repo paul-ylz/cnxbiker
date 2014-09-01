@@ -33,6 +33,7 @@ class RoutesController < ApplicationController
   def update
     respond_to do |format|
       if @route.update(route_params)
+        @route.track.process_gpx
         format.html { redirect_to @route, notice: 'Route was successfully updated.' }
         format.json { render :show, status: :ok, location: @route }
       else
