@@ -14,8 +14,5 @@ new L.GPX(gpx_url,
   async: true
 ).on("loaded", (e) ->
   gpx = e.target
-  $('#distance').prepend gpx.get_distance().toFixed(0)
-  $('#total-ascent').prepend gpx.get_elevation_gain().toFixed(0)
   map.fitBounds gpx.getBounds()
 ).addTo map
-

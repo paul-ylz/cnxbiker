@@ -1,76 +1,83 @@
-class Gpx
+class Numeric
+  def to_rad
+    self * Math::PI / 180
+  end
+end
 
+class Gpx
   attr_reader :points, :distance, :total_ascent, :total_descent
 
   def initialize(path)
-    @points        = []
+    @coords        = []
+    @elevations    = []
     @distance      = 0
     @total_ascent  = 0
     @total_descent = 0
-    @file          = File.open path
-    parse_gpx
-    @file.close
+    load_gpx path
   end
 
-  def calc_distance
-    i = 0
-    loop do
-      a = [ @points[i][:lon].to_f, @points[i][:lat].to_f ]
-      b = [ @points[i+1][:lon].to_f, @points[i+1][:lat].to_f ]
-      @distance += distance_between_points(a, b)
-      i += 1
-      break if i >= @points.length - 2
-    end
+  def load_gpx(path)
+    File.open(path) { |file| parse_gpx file }
   end
 
-  def calc_elevations
-    i = 0
-    loop do
-      a = @points[i][:ele].to_f
-      b = @points[i+1][:ele].to_f
-      b > a ? @total_ascent += (b - a) : @total_descent += (a - b)
-      i += 1
-      break if i >= @points.length - 2
-    end
-  end
-
-  def parse_gpx
-    gpx   = Nokogiri::XML @file
+  def parse_gpx(file)
+    gpx   = Nokogiri::XML file
     nodes = gpx.xpath('//xmlns:trkpt')
 
     nodes.each do |node|
-      @points << {
-        lon: node['lon'],
-        lat: node['lat'],
-        ele: get_elevation(node)
-      }
+      @coords << [ node['lat'].to_f, node['lon'].to_f ]
+
+      node.children.each do |child|
+        @elevations << child.content.to_f if child.node_name == 'ele'
+      end
     end
+
     calc_distance
     calc_elevations
   end
 
-  def get_elevation(node)
-    node.children.each do |child|
-      return child.content if child.node_name == 'ele'
+  def calc_distance
+    @distance = 0
+    i         = 0
+
+    loop do
+      a = @coords[ i ]
+      b = @coords[ i + 1 ]
+
+      @distance += distance_between_points( a, b )
+
+      i += 1
+      break if i >= @coords.length - 2
     end
   end
 
-  # http://stackoverflow.com/questions/12966638/rails-how-to-calculate-the-distance-of-two-gps-coordinates-without-having-to-u
-  def distance_between_points a, b
-    rad_per_deg = Math::PI/180  # PI / 180
-    rkm         = 6371          # Earth radius in kilometers
-    rm          = rkm * 1000    # Radius in meters
+  def calc_elevations
+    @total_ascent, @total_descent = 0, 0
+    i = 0
+    loop do
+      a = @elevations[ i ]
+      b = @elevations[ i + 1 ]
 
-    dlon_rad = (b[1]-a[1]) * rad_per_deg  # Delta, converted to rad
-    dlat_rad = (b[0]-a[0]) * rad_per_deg
-
-    lat1_rad, lon1_rad = a.map! {|i| i * rad_per_deg }
-    lat2_rad, lon2_rad = b.map! {|i| i * rad_per_deg }
-
-    a = Math.sin(dlat_rad/2)**2 + Math.cos(lat1_rad) * Math.cos(lat2_rad) * Math.sin(dlon_rad/2)**2
-    c = 2 * Math::atan2(Math::sqrt(a), Math::sqrt(1-a))
-
-    rm * c # Delta in meters
+      b > a ? @total_ascent += (b - a) : @total_descent += (a - b)
+      i += 1
+      break if i >= @elevations.length - 2
+    end
   end
 
+  # Haversine distance formula from https://gist.github.com/j05h/673425
+
+  def distance_between_points(loc1, loc2)
+     lat1, lon1 = loc1
+     lat2, lon2 = loc2
+     dLat       = (lat2 - lat1).to_rad
+     dLon       = (lon2 - lon1).to_rad
+
+     a = Math.sin(dLat/2) * Math.sin(dLat/2) +
+         Math.cos(lat1.to_rad) * Math.cos(lat2.to_rad) *
+         Math.sin(dLon/2) * Math.sin(dLon/2)
+
+     c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a))
+
+     d = 6371 * c
+  end
 end
