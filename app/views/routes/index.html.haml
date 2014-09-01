@@ -14,8 +14,8 @@
     %tr
       %td= route.title
       %td= route.description
-      %td= route.distance
-      %td= route.total_ascent
+      %td= route.track.distance
+      %td= route.track.total_ascent
       %td= link_to 'Show', route
       %td= link_to 'Edit', edit_route_path(route)
       %td= link_to 'Destroy', route, :method => :delete, :data => { :confirm => 'Are you sure?' }

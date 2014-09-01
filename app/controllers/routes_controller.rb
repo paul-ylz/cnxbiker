@@ -20,7 +20,7 @@ class RoutesController < ApplicationController
     @route = Route.new(route_params)
     respond_to do |format|
       if @route.save
-        update_route_from_gpx
+        @route.track.process_gpx
         format.html { redirect_to @route, notice: 'Route was successfully created.' }
         format.json { render :show, status: :created, location: @route }
       else
@@ -57,10 +57,5 @@ class RoutesController < ApplicationController
 
     def route_params
       params.require(:route).permit(:title, :description, :distance, :total_ascent, track_attributes: [:gpx])
-    end
-
-    def update_route_from_gpx
-      gpx = Gpx.new @route.track.gpx.path
-      @route.update_attributes distance: gpx.distance, total_ascent: gpx.total_ascent
     end
 end

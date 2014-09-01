@@ -8,18 +8,13 @@
   = @route.description
 %p
   %b Distance:
-  %span#distance m
+  = number_to_human @route.track.distance, units: { unit: 'km' }
 %p
   %b Total ascent:
-  %span#total-ascent m
-
-%p
-  From Gpx:
-  distance:
-  = @route.distance
-  %br
-  total_ascent:
-  = @route.total_ascent
+  = number_to_human @route.track.total_ascent, units: { unit: 'm' }
+/ %p
+/   %b Total descent:
+/   = number_to_human @route.track.total_descent, units: { unit: 'm' }
 
 = content_tag 'div', id: 'track', data: { url: @route.track.gpx.url } do
   %b Download:
