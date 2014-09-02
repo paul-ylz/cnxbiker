@@ -57,6 +57,11 @@ class RoutesController < ApplicationController
     end
 
     def route_params
-      params.require(:route).permit(:title, :description, :distance, :total_ascent, track_attributes: [:gpx])
+      params.require(:route).permit(
+        :title,
+        :description,
+        :distance,
+        :total_ascent,
+        track_attributes: [:gpx, :id])
     end
 end
